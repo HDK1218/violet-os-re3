@@ -33,4 +33,6 @@ export default function Login() {
           </a>
         </div>
       </div>
-    </div
+    </div>
+  )
+}
