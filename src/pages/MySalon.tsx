@@ -1,26 +1,23 @@
 import React from 'react'
-import { mySalonLayout } from '../shared/data/mySalon'
+import { SalonObject } from '@/components/SalonObject'
+import { mySalonLayout } from '@/shared/data/mySalon'
 
 export default function MySalon() {
   return (
     <div className="relative w-screen h-screen flex items-center justify-center bg-gray-100">
-      {/* 3Dルーム画像 */}
-      <img
-        src={mySalonLayout.background}
-        alt="Room"
-        className="max-w-full max-h-full object-contain"
-      />
+      {/* 3Dルーム画像とオブジェクト配置エリア */}
+      <div className="relative">
+        <img
+          src={mySalonLayout.background}
+          alt="Room"
+          className="max-w-full max-h-full object-contain"
+        />
 
-      {/* 配置オブジェクト */}
-      {mySalonLayout.objects.map((obj) => (
-        <div
-          key={obj.id}
-          className="absolute text-xs bg-white/80 px-1 rounded"
-          style={{ left: `${obj.position[0] * 80}px`, top: `${obj.position[1] * 80}px` }}
-        >
-          {obj.name}
-        </div>
-      ))}
+        {/* 配置オブジェクト */}
+        {mySalonLayout.objects.map((obj) => (
+          <SalonObject key={obj.id} name={obj.name} position={obj.position} />
+        ))}
+      </div>
 
       {/* Violet OS ロゴ */}
       <img src="/assets/logo.png" alt="Violet OS" className="absolute top-4 right-4 w-24" />
