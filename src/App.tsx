@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
+import MySalon from './pages/MySalon'
 import MyRoom from './pages/MyRoom'
 import Tasks from './pages/Tasks'
 import Projects from './pages/Projects'
@@ -17,7 +18,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<MySalon />} />
+        <Route path="/my-salon" element={<MySalon />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/my-room" element={<MyRoom />} />
         <Route path="/tasks" element={<Tasks />} />
