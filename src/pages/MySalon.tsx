@@ -33,6 +33,10 @@ export default function MySalon() {
     setShowList(false)
   }
 
+  const handleMoveObject = (uid: string, pos: [number, number]) => {
+    setObjects((prev) => prev.map((o) => (o.uid === uid ? { ...o, position: pos } : o)))
+  }
+
   const handleRemoveSelected = () => {
     if (!selectedUid) return
     setObjects((prev) => prev.filter((o) => o.uid !== selectedUid))
@@ -53,6 +57,7 @@ export default function MySalon() {
             position={obj.position}
             selected={selectedUid === obj.uid}
             onClick={() => setSelectedUid(obj.uid)}
+            onMove={(pos) => handleMoveObject(obj.uid, pos)}
           />
         ))}
       </div>
