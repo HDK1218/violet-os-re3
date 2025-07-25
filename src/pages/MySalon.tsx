@@ -11,26 +11,27 @@ export default function MySalon() {
       />
 
       {/* Violet OS ロゴ */}
-      <img src="/logo.png" alt="Violet OS" className="absolute top-4 right-4 w-24" />
+      <img src="/assets/logo.png" alt="Violet OS" className="absolute top-4 right-4 w-24" />
 
       {/* ユーザー情報 */}
       <div className="absolute top-4 left-4 flex items-center space-x-4 bg-white/80 p-2 rounded">
-        <div className="w-10 h-10 bg-gray-300 rounded-full" />
-        <div className="text-xs leading-tight">
-          <div>Vitcoin: 0</div>
-          <div>Vダイヤ: 0</div>
-          <div>スキルP: 0</div>
-          <div>名声P: 0</div>
+        <img src="/assets/avatar.png" alt="avatar" className="w-10 h-10 rounded-full" />
+        <div className="text-xs leading-tight space-x-2">
+          <span>💰1.8k</span>
+          <span>💎45</span>
+          <span>🧠320</span>
+          <span>⭐150</span>
         </div>
       </div>
 
       {/* 右下アイコン */}
       <div className="absolute bottom-4 right-4 space-y-4 flex flex-col items-end">
-        <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">👤</button>
-        <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">✉️</button>
+        <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">🧑‍🦰</button>
+        <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">📩</button>
         <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">📦</button>
         <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">🌐</button>
       </div>
     </div>
   )
 }
+
