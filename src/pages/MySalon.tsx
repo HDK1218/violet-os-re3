@@ -1,109 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { SalonObject } from '@/components/SalonObject'
+import React from 'react'
 import { mySalonLayout } from '@/shared/data/mySalon'
 
-const furnitureList = [
-  { id: 'plant', name: '観葉植物' },
-  { id: 'sofa', name: 'ソファ' },
-  { id: 'chair', name: '椅子' },
-] as const
-
-type PlacedObject = {
-  uid: string
-  id: string
-  name: string
-  position: [number, number]
-}
-
 export default function MySalon() {
-  const [objects, setObjects] = useState<PlacedObject[]>(() => {
-    const saved = localStorage.getItem('mySalonObjects')
-    return saved ? (JSON.parse(saved) as PlacedObject[]) : mySalonLayout.objects.map((o) => ({ ...o, uid: o.id }))
-  })
-  const [selectedUid, setSelectedUid] = useState<string | null>(null)
-  const [showList, setShowList] = useState(false)
-
-  useEffect(() => {
-    localStorage.setItem('mySalonObjects', JSON.stringify(objects))
-  }, [objects])
-
-  const handleAddFurniture = (item: { id: string; name: string }) => {
-    const newObj: PlacedObject = { uid: `${item.id}-${Date.now()}`, id: item.id, name: item.name, position: [1, 1] }
-    setObjects((prev) => [...prev, newObj])
-    setShowList(false)
-  }
-
-  const handleMoveObject = (uid: string, pos: [number, number]) => {
-    setObjects((prev) => prev.map((o) => (o.uid === uid ? { ...o, position: pos } : o)))
-  }
-
-  const handleRemoveSelected = () => {
-    if (!selectedUid) return
-    setObjects((prev) => prev.filter((o) => o.uid !== selectedUid))
-    setSelectedUid(null)
-  }
-
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center bg-gray-100">
-      {/* 3Dルーム画像とオブジェクト配置エリア */}
-      <div className="relative">
-        <img src={mySalonLayout.background} alt="Room" className="max-w-full max-h-full object-contain" />
-
-        {/* 配置オブジェクト */}
-        {objects.map((obj) => (
-          <SalonObject
-            key={obj.uid}
-            name={obj.name}
-            position={obj.position}
-            selected={selectedUid === obj.uid}
-            onClick={() => setSelectedUid(obj.uid)}
-            onMove={(pos) => handleMoveObject(obj.uid, pos)}
-          />
-        ))}
+    <div className="relative w-screen h-screen bg-[url('/assets/background-salon.jpg')] bg-cover bg-center">
+      {/* サイドバー */}
+      <div className="absolute top-0 left-0 h-full w-24 bg-white/70 flex flex-col items-center py-4 space-y-4">
+        <img src="/assets/avatar.png" alt="avatar" className="w-16 h-16 rounded-full" />
+        <nav className="flex flex-col items-center space-y-2 text-xs text-gray-700">
+          <div className="w-16 h-6 bg-gray-200 rounded" />
+          <div className="w-16 h-6 bg-gray-200 rounded" />
+          <div className="w-16 h-6 bg-gray-200 rounded" />
+        </nav>
       </div>
 
-      {/* Violet OS ロゴ */}
-      <img src="/assets/logo.png" alt="Violet OS" className="absolute top-4 right-4 w-24" />
-
-      {/* ユーザー情報 */}
-      <div className="absolute top-4 left-4 flex items-center space-x-4 bg-white/80 p-2 rounded">
-        <img src="/assets/avatar.png" alt="avatar" className="w-10 h-10 rounded-full" />
-        <div className="text-xs leading-tight">
-          <div className="font-bold">{mySalonLayout.owner.name} Lv.{mySalonLayout.owner.level}</div>
-          <div className="space-x-2">
-            <span>💰{mySalonLayout.owner.vitcoin}</span>
-            <span>💎{mySalonLayout.owner.vDiamond}</span>
-            <span>🧠{mySalonLayout.owner.skillPoint}</span>
-            <span>⭐{mySalonLayout.owner.famePoint}</span>
-          </div>
+      {/* 右上 通貨表示とロゴ */}
+      <div className="absolute top-4 right-4 flex items-center space-x-4">
+        <div className="text-xs bg-black/40 text-white px-2 py-1 rounded">
+          💰 {mySalonLayout.owner.vitcoin}
         </div>
+        <img src="/assets/logo.png" alt="logo" className="w-20" />
       </div>
 
-      {/* 家具選択ポップアップ */}
-      {showList && (
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center" onClick={() => setShowList(false)}>
-          <div className="bg-white p-4 rounded space-y-2" onClick={(e) => e.stopPropagation()}>
-            {furnitureList.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => handleAddFurniture(f)}
-                className="block w-32 text-left px-2 py-1 hover:bg-gray-100"
-              >
-                {f.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* 右中央 丸ボタン */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-end space-y-4">
+        <button className="w-12 h-12 bg-white/70 rounded-full shadow flex items-center justify-center">Q</button>
+        <button className="w-12 h-12 bg-white/70 rounded-full shadow flex items-center justify-center">I</button>
+        <button className="w-12 h-12 bg-white/70 rounded-full shadow flex items-center justify-center">S</button>
+        <button className="w-12 h-12 bg-white/70 rounded-full shadow flex items-center justify-center">M</button>
+      </div>
 
-      {/* 右下アイコン */}
-      <div className="absolute bottom-4 right-4 space-y-4 flex flex-col items-end">
-        <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">🧑‍🦰</button>
-        <button className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">📩</button>
-        <button onClick={() => setShowList(true)} className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">📦</button>
-        {selectedUid && (
-          <button onClick={handleRemoveSelected} className="w-12 h-12 bg-white rounded-full shadow flex items-center justify-center">🗑️</button>
-        )}
+      {/* チャット通知バー */}
+      <div className="absolute bottom-24 right-4 bg-white/80 px-4 py-2 rounded shadow text-sm">
+        〇〇さんからメッセージが届きました
+      </div>
+
+      {/* モチベーションゲージ */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-10/12 max-w-md">
+        <div className="text-center text-xs text-white mb-1">LV.{mySalonLayout.owner.level} モチベーション</div>
+        <div className="w-full h-3 bg-gray-200 rounded">
+          <div className="h-full bg-purple-500 rounded" style={{ width: '70%' }} />
+        </div>
       </div>
     </div>
   )
